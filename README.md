@@ -3,9 +3,7 @@
 SpeakFast is an interactive English-speaking practice platform for ESL learners.  
 It simulates realistic phone conversations with an AI partner and provides instant grammar feedback at the end of each session.
 
-![Uploading image.png…]()
 
-![Uploading image.png…]()
 
 
 
