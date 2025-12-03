@@ -5,6 +5,7 @@ It simulates realistic phone conversations with an AI partner and provides insta
 
 
 ![alt text](/img/image1.png)
+![alt text](/img/original.png)
 
 ---
 
