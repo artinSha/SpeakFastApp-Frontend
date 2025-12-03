@@ -1,15 +1,14 @@
+import { Feather } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import {
-  ScrollView,
-  View,
-  Text,
-  StyleSheet,
   Image,
+  ScrollView,
+  StyleSheet,
+  Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import { useRouter } from 'expo-router';
-import { Feather } from '@expo/vector-icons';
-import * as Notifications from 'expo-notifications';
 
 type FeatherName = React.ComponentProps<typeof Feather>['name'];
 
@@ -33,10 +32,12 @@ type Stat = {
 type HomeScreenProps = {
   onStartCall?: () => void;
   onMoreInfo?: () => void;
+  onSchedule?: () => void;
 };
 
-const TUTOR_IMAGE =
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQk3mDpjoXfNjGy_1uFgbn-9MCCurMXy125Sg&s';
+const TUTOR_IMAGE = require('../assets/images/Oli.png');
+
+const LOGO_IMAGE = require('../assets/images/logo.png');
 
 const HIGHLIGHTS: Highlight[] = [
   {
@@ -71,14 +72,23 @@ const STATS: Stat[] = [
 
 
 
-export function HomeScreen({ onStartCall, onMoreInfo }: HomeScreenProps) {
+export function HomeScreen({ onStartCall, onMoreInfo, onSchedule }: HomeScreenProps) {
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.container}>
       <View style={styles.header}>
+        <TouchableOpacity 
+          style={styles.settingsButton}
+          onPress={onSchedule}
+        >
+          <Feather name="settings" size={20} color="#9ca3af" />
+        </TouchableOpacity>
+        
         <View style={styles.logoRow}>
+          {/* 
           <View style={styles.logoBadge}>
-            <Text style={styles.logoText}>SF</Text>
-          </View>
+            <Image source={LOGO_IMAGE} style={styles.logoImage} />
+          </View> 
+          */}
           <Text style={styles.appName}>SpeakFast</Text>
         </View>
         <Text style={styles.tagline}>
@@ -91,11 +101,11 @@ export function HomeScreen({ onStartCall, onMoreInfo }: HomeScreenProps) {
 
       <View style={styles.card}>
         <View style={styles.tutorRow}>
-          <Image source={{ uri: TUTOR_IMAGE }} style={styles.tutorImage} />
+          <Image source={TUTOR_IMAGE} style={styles.tutorImage} />
           <View style={styles.tutorCopy}>
             <View style={styles.tutorHeader}>
-              <Text style={styles.tutorName}>Lebron</Text>
-              <View style={[styles.badge, styles.smallBadge]}>
+              <Text style={styles.tutorName}>Oli</Text>
+              <View style={styles.badge}>
                 <Text style={styles.badgeText}>AI Scenario Master</Text>
               </View>
             </View>
@@ -152,7 +162,7 @@ export function HomeScreen({ onStartCall, onMoreInfo }: HomeScreenProps) {
             </View>
           </View>
         ))}
-      </View>
+      </View> 
 
       <View style={styles.card}>
         <Text style={styles.sectionHint}>Your Progress</Text>
@@ -168,7 +178,7 @@ export function HomeScreen({ onStartCall, onMoreInfo }: HomeScreenProps) {
             <Feather name="menu" size={18} color="#fff" />
             <Text style={styles.ctaText}>More Info</Text>
           </TouchableOpacity>
-      </View>
+      </View> 
 
       <View style={styles.warning}>
         <Text style={styles.warningText}>
@@ -186,6 +196,7 @@ export default function HomeRoute() {
     <HomeScreen
       onStartCall={() => router.push('/call')}
       onMoreInfo={() => router.push('/results')}
+      onSchedule={() => router.push('/schedule')}
     />
   );
 }
@@ -205,11 +216,25 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     gap: 12,
+    position: 'relative',
+  },
+  settingsButton: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    padding: 8,
+    borderRadius: 8,
+    backgroundColor: 'rgba(31, 41, 55, 0.6)',
+    borderWidth: 1,
+    borderColor: 'rgba(75, 85, 99, 0.6)',
   },
   logoRow: {
-    flexDirection: 'row',
+    // flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    justifyContent: 'center',
+    // gap: 12,
+    paddingTop: 16,
+    paddingBottom: 8,
   },
   logoBadge: {
     width: 48,
@@ -224,10 +249,17 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#111827',
   },
+  logoImage: {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+  },
   appName: {
-    fontSize: 28,
-    fontWeight: '700',
+    fontSize: 32,
+    fontWeight: '800',
     color: '#f9fafb',
+    textAlign: 'center',
+    letterSpacing: -0.5,
   },
   tagline: {
     textAlign: 'center',
@@ -236,7 +268,7 @@ const styles = StyleSheet.create({
   badge: {
     borderRadius: 999,
     paddingHorizontal: 16,
-    paddingVertical: 6,
+    paddingVertical: 4,
     backgroundColor: 'rgba(251, 146, 60, 0.2)',
     borderWidth: 1,
     borderColor: 'rgba(251, 146, 60, 0.5)',
@@ -249,6 +281,8 @@ const styles = StyleSheet.create({
   },
   smallBadge: {
     alignSelf: 'flex-start',
+    flexShrink: 1,
+    maxWidth: '50%',
   },
   card: {
     borderRadius: 16,
@@ -275,11 +309,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
+    flexWrap: 'wrap',
   },
   tutorName: {
     fontSize: 18,
     fontWeight: '600',
     color: '#f9fafb',
+    flex: 1,
   },
   tutorSubtitle: {
     fontSize: 14,
